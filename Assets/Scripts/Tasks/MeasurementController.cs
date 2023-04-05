@@ -10,6 +10,9 @@ public class MeasurementController : MonoBehaviour
     public XRRayInteractor rayInteractor_left;
     public bool selected1;
     public bool selected2;
+    public Material selectedMat;
+    public Material originalMat1;
+    public Material originalMat2;
     public GameObject startingPoint;
     public GameObject endingPoint;
 
@@ -31,6 +34,14 @@ public class MeasurementController : MonoBehaviour
         if(selected1 == false)
         {
             selected1 = true;
+            RaycastHit raycastHit;
+            if (rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit) || rayInteractor_left.TryGetCurrent3DRaycastHit(out raycastHit))
+            {
+                originalMat1 = raycastHit.collider.GetComponent<Renderer>().material;
+                raycastHit.collider.GetComponent<MeshRenderer>().sharedMaterial = selectedMat;
+                startingPoint = raycastHit.collider.gameObject;
+                return;
+            }
         }
         else if(selected1 == true && selected2 == false)
         {
@@ -40,25 +51,34 @@ public class MeasurementController : MonoBehaviour
             if (rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit) || rayInteractor_left.TryGetCurrent3DRaycastHit(out raycastHit))
             {
                 // check if the 2nd object is still the first object
-                if(raycastHit.collider.name == startingPoint.name)
+                if(raycastHit.collider.name == startingPoint.name || raycastHit.collider.CompareTag("Respawn"))
                 {
-                    print("you tried to measure with only 1 object");
+                    print("you tried to measure with only 1 object or hit the plane");
                     selected2 = false;
                     return; // just in case for some reason
                 }
+                else
+                {
+                    endingPoint = raycastHit.collider.gameObject;
+                    originalMat2 = raycastHit.collider.GetComponent<Renderer>().material;
+                    raycastHit.collider.GetComponent<MeshRenderer>().sharedMaterial = selectedMat;
+                    selected2 = true;
+                    print(endingPoint.name);
+                }
+                // have 2 objects selected
+                // measure the distance between the 2 molecules
+                print(Vector3.Distance(startingPoint.transform.position, endingPoint.transform.position));
             }
         }
-        // measure the distance between the 2 molecules
         else if(selected1 == true && selected2 == true)
         {
-            
+            ResetMeasure();
         }
         
     }
 
     public void TestMeasurement()
     {
-        print("measured");
         RaycastHit raycastHit;
         if(rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit))
         {
@@ -70,5 +90,13 @@ public class MeasurementController : MonoBehaviour
 
         // either do clear selected gameobject properties using button or just clicking on a different sphere
         
+    }
+
+    public void ResetMeasure()
+    {
+        startingPoint.GetComponent<MeshRenderer>().sharedMaterial = originalMat1;
+        endingPoint.GetComponent<MeshRenderer>().sharedMaterial = originalMat2;
+        selected1 = false;
+        selected2 = false;
     }
 }
