@@ -5,6 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using TMPro;
 public class MeasurementController : MonoBehaviour
 {
+    public TaskManager taskManagerRef_;
     // Start is called before the first frame update
     public XRRayInteractor rayInteractor_right;
     public XRRayInteractor rayInteractor_left;
@@ -20,6 +21,10 @@ public class MeasurementController : MonoBehaviour
     public GameObject testCube1;
     public GameObject testCube2;
 
+    [Header("SFX")]
+    public AudioSource sfxPlayer;
+    public AudioClip startMeasure;
+    public AudioClip endMeasure;
     void Start()
     {
         measureText.text = "";
@@ -47,6 +52,7 @@ public class MeasurementController : MonoBehaviour
                 raycastHit.collider.GetComponent<MeshRenderer>().sharedMaterial = selectedMat;
                 startingPoint = raycastHit.collider.gameObject;
                 measureText.text = "Measuring";
+                sfxPlayer.PlayOneShot(startMeasure);
                 return;
             }
         }
@@ -72,11 +78,12 @@ public class MeasurementController : MonoBehaviour
                     raycastHit.collider.GetComponent<MeshRenderer>().sharedMaterial = selectedMat;
                     selected2 = true;
                     print(endingPoint.name);
+                    sfxPlayer.PlayOneShot(endMeasure);
                 }
                 // have 2 objects selected
                 // measure the distance between the 2 molecules
                 print(Vector3.Distance(startingPoint.transform.position, endingPoint.transform.position));
-                measureText.text = Vector3.Distance(startingPoint.transform.position, endingPoint.transform.position).ToString("N2");
+                measureText.text = "Distance: " +  Vector3.Distance(startingPoint.transform.position, endingPoint.transform.position).ToString("N2");
                 //cameraLine.enabled = true;
                 //print(endingPoint.transform.position);
                 //testCube1.transform.position = startingPoint.transform.position;

@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.XR.Interaction.Toolkit;
 public class ViewpointController : MonoBehaviour
 {
-
+    public ActionBasedContinuousMoveProvider leftMover;
     public Transform teleportInLocation;
     public Transform teleportOutLocation;
     public Animator transitionRef;
@@ -40,5 +40,14 @@ public class ViewpointController : MonoBehaviour
     public void TeleportOutside()
     {
         player.transform.position = teleportOutLocation.position;
+    }
+
+    public void EnableMovement()
+    {
+        leftMover.moveSpeed = 5;
+    }
+    public void DisableMovement()
+    {
+        leftMover.moveSpeed = 0;
     }
 }
