@@ -21,6 +21,12 @@ public class MeasurementController : MonoBehaviour
     public GameObject testCube1;
     public GameObject testCube2;
 
+    // cap is at least 3
+    [Header("Measurement Trackers")]
+    public int measure1;
+    public int measure2;
+    public int measure3;
+
     [Header("SFX")]
     public AudioSource sfxPlayer;
     public AudioClip startMeasure;
@@ -46,7 +52,7 @@ public class MeasurementController : MonoBehaviour
         {
             selected1 = true;
             RaycastHit raycastHit;
-            if (rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit) || rayInteractor_left.TryGetCurrent3DRaycastHit(out raycastHit))
+            if (rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit))
             {
                 originalMat1 = raycastHit.collider.GetComponent<Renderer>().material;
                 raycastHit.collider.GetComponent<MeshRenderer>().sharedMaterial = selectedMat;
@@ -61,14 +67,13 @@ public class MeasurementController : MonoBehaviour
             selected2 = true;
             // do checking, the measuring event is set off by pressing the grip button on either left or right controller
             RaycastHit raycastHit;
-            if (rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit) || rayInteractor_left.TryGetCurrent3DRaycastHit(out raycastHit))
+            if (rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit))
             {
                 // check if the 2nd object is still the first object
                 if(raycastHit.collider.name == startingPoint.name || raycastHit.collider.CompareTag("Respawn"))
                 {
                     print("you tried to measure with only 1 object or hit the plane");
                     selected2 = false;
-                    
                     return; // just in case for some reason
                 }
                 else
@@ -84,14 +89,16 @@ public class MeasurementController : MonoBehaviour
                 // measure the distance between the 2 molecules
                 print(Vector3.Distance(startingPoint.transform.position, endingPoint.transform.position));
                 measureText.text = "Distance: " +  Vector3.Distance(startingPoint.transform.position, endingPoint.transform.position).ToString("N2");
-                //cameraLine.enabled = true;
+                Transform parent = raycastHit.collider.gameObject.transform.parent;
+                TrackMeasure(parent.name);
+                cameraLine.enabled = true;
                 //print(endingPoint.transform.position);
                 //testCube1.transform.position = startingPoint.transform.position;
                 //testCube2.transform.position = endingPoint.transform.position;
                 //testCube1.transform.rotation = Quaternion.identity;
                 //testCube2.transform.rotation = Quaternion.identity;
-                //cameraLine.SetPosition(0, testCube1.transform.position);
-                //cameraLine.SetPosition(1, testCube2.transform.position);
+                cameraLine.SetPosition(0, startingPoint.transform.position);
+                cameraLine.SetPosition(1, endingPoint.transform.position);
             }
         }
         else if(selected1 == true && selected2 == true)
@@ -118,11 +125,21 @@ public class MeasurementController : MonoBehaviour
 
     public void ResetMeasure()
     {
-      //  cameraLine.enabled = false;
+        cameraLine.enabled = false;
         measureText.text = "";
         startingPoint.GetComponent<MeshRenderer>().sharedMaterial = originalMat1;
         endingPoint.GetComponent<MeshRenderer>().sharedMaterial = originalMat2;
         selected1 = false;
         selected2 = false;
+    }
+
+    public void TrackMeasure(string inputName)
+    {
+        
+        switch(inputName)
+        {
+            case "T":
+                break;
+        }
     }
 }

@@ -9,6 +9,7 @@ public class ViewpointController : MonoBehaviour
     public Transform teleportOutLocation;
     public Animator transitionRef;
     public GameObject player;
+    public TaskManager taskTextRef__;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,11 +35,13 @@ public class ViewpointController : MonoBehaviour
 
     public void TeleportInside()
     {
+        taskTextRef__.taskText.text = "Current View: Interior";
         player.transform.position = teleportInLocation.position;
     }
 
     public void TeleportOutside()
     {
+        taskTextRef__.taskText.text = "Current View: Exterior";
         player.transform.position = teleportOutLocation.position;
     }
 

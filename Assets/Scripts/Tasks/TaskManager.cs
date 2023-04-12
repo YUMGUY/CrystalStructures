@@ -14,6 +14,7 @@ public class TaskManager : MonoBehaviour
     public TextMeshProUGUI taskText;
 
     [Header("Task Locations and Numbers")]
+    public GameObject playerRef;
     public Transform[] externalLocations;
     public Transform[] internalLocations;
     public Transform[] grabLocations;
@@ -57,10 +58,13 @@ public class TaskManager : MonoBehaviour
     {
         if(ExternalView)
         {
+            playerRef.transform.position = externalLocations[0].position;
             taskText.text = "Current View: External";
+            
         }
         else
         {
+            playerRef.transform.position = internalLocations[0].position;
             taskText.text = "Current View: Internal";
         }
     }
@@ -69,21 +73,14 @@ public class TaskManager : MonoBehaviour
     void Update()
     {
         // do it once for each random task, branch off
-        if(grabTask == true)
+        if(grab1 && grab2 && grab3 && finishedGrabTask == false)
         {
-            if(grab1 && grab2 && grab3 && finishedGrabTask == false)
-            {
-                print("finished grab");
-                finishedGrabTask = true;
-                // start it once
-             
-            }
+            print("finished grab");
+            finishedGrabTask = true;
+            // start it once
         }
+      
 
-       if(measureTask == true)
-       {
-
-       }
     }
 
     public IEnumerator CompletedTask(string task)
@@ -93,10 +90,13 @@ public class TaskManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         switch(task)
         {
-            case "Grab":
+            case "External":
                 measureTask = true;
                 grabTask = false;
-                taskText.text = "Current Task: Measuring";
+                taskText.text = "Current View: Internal";
+                break;
+            case "Internal":
+                taskText.text = "Current View: External";
                 break;
         }
 
