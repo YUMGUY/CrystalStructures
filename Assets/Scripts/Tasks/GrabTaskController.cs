@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class GrabTaskController : MonoBehaviour
 {
     public TaskManager taskManagerRef;
+    public TextMeshProUGUI grabtrackerText;
+    public int numTaskCompleted;
     public GameObject[] grabTasks;
     public AudioClip grabbing;
     public AudioClip endGrab;
+    public AudioClip completeRotate;
     public AudioSource sfxPlayerRef;
     public bool rotate;
     public GameObject currObj;
@@ -32,15 +35,37 @@ public class GrabTaskController : MonoBehaviour
         if(currObj != null)
         {
             if (rotateTracker >= 100.0f && currObj.name == grabTasks[0].name)
-            {
-                print("do it");
+            {     
                 rotateTracker = 0;
                 taskManagerRef.grab1 = true;
+                sfxPlayerRef.PlayOneShot(completeRotate);
+                numTaskCompleted += 1;
+                //  grabtrackerText.text = "Grab/Rotate Tasks Completed: 1/3";
+            }
+            else if(rotateTracker >= 100.0f && currObj.name == grabTasks[1].name )
+            {
+                rotateTracker = 0;
                 taskManagerRef.grab2 = true;
+                sfxPlayerRef.PlayOneShot(completeRotate);
+                numTaskCompleted += 1;
+                //   grabtrackerText.text = "Grab/Rotate Tasks Completed: 2/3";
+            }
+            else if(rotateTracker >= 100.0f && currObj.name == grabTasks[2].name )
+            {
+                sfxPlayerRef.PlayOneShot(completeRotate);
+                rotateTracker = 0;
                 taskManagerRef.grab3 = true;
+                numTaskCompleted += 1;
+               // grabtrackerText.text = "Grab/Rotate Tasks Completed: 3/3";
+
             }
         }
-        
+        if(numTaskCompleted > 3)
+        {
+            numTaskCompleted = 3;
+        }
+        grabtrackerText.text = "Grab/Rotate Tasks Completed: " + numTaskCompleted.ToString() + "/3";
+
         // add saftey to object position
 
     }

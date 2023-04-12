@@ -26,6 +26,7 @@ public class MeasurementController : MonoBehaviour
     public int measure1;
     public int measure2;
     public int measure3;
+    public GameObject[] exteriorParentMeasures;
 
     [Header("SFX")]
     public AudioSource sfxPlayer;
@@ -82,7 +83,7 @@ public class MeasurementController : MonoBehaviour
                     originalMat2 = raycastHit.collider.GetComponent<Renderer>().material;
                     raycastHit.collider.GetComponent<MeshRenderer>().sharedMaterial = selectedMat;
                     selected2 = true;
-                    print(endingPoint.name);
+                   // print(endingPoint.name);
                     sfxPlayer.PlayOneShot(endMeasure);
                 }
                 // have 2 objects selected
@@ -135,11 +136,21 @@ public class MeasurementController : MonoBehaviour
 
     public void TrackMeasure(string inputName)
     {
-        
-        switch(inputName)
+        // names of the parent objects for measuring
+        if(taskManagerRef_.ExternalView == true)
         {
-            case "T":
-                break;
+            switch (inputName)
+            {
+                case "structure_06 exterior measure 3":
+                    measure1++;
+                    if (measure1 > 3) { measure1 = 3; }
+                    break;
+            }
         }
+        else if(taskManagerRef_.InternalView == true)
+        {
+
+        }
+        
     }
 }
