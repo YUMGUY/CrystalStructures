@@ -2036,9 +2036,9 @@ MonoBehaviour:
     viewpoints. To toggle between the inside and outside viewpoints, click \"Interior\"
     or \"Exterior\" button. \n\nFrom each viewpoints, you will be able to interact
     with the structure and gain information and fundamental concepts about the structure.
-    There are several things you can do: \n\n- Measure: Grab two arbitrary atoms
-    one by one, to get the measured distance between the two atoms. \n\n- Spin: Grab
-    the model and spin around to gain a 360 degree view of the model. \n\nReady?
+    There are several things you can do: \n\n- Measure distance between two objects
+    with the right hand grip button by placing ray on the desired objects\r\n\r\n-
+    Grab objects and spin them by pressing the trigger with either controller\r\n\nReady?
     Click \"Start\" to begin this fun learning experience!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
