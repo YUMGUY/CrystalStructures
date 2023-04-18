@@ -13,14 +13,22 @@ public class DistanceChecker : MonoBehaviour
     public GameObject playerVr;
     public Transform endPointpos;
     public Transform startPointpos;
+    public bool reachedEnd;
+    public AudioClip notifEnd;
+    public AudioSource sfxRef;
     void Start()
     {
+        reachedEnd = false;
         print(Vector3.Distance(pos1.transform.position, pos2.transform.position));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Vector3.Distance(playerVr.transform.position, endPointpos.position) < 15 && reachedEnd == false)
+        {
+            sfxRef.PlayOneShot(notifEnd);
+            reachedEnd = true;
+        }
     }
 }

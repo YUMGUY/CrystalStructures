@@ -14,7 +14,9 @@ public class TaskManager : MonoBehaviour
     public bool InternalView;
     public TextMeshProUGUI taskText;
     public MeasurementController measureRef;
-
+    public DistanceChecker distanceCheckerRef;
+    public AudioSource sfxRef;
+    public AudioClip completedSFX;
     [Header("Task Locations and Numbers")]
     public GameObject playerRef;
     public Transform[] externalLocations;
@@ -41,8 +43,9 @@ public class TaskManager : MonoBehaviour
     public bool playFinishIn;
 
     public bool startedCoroutine;
-    public Button exTo_interiorButton;
-    public Button exTo_interiorButton2;
+    public GameObject exteriorButtonStart;
+   // public Button exTo_interiorButton;
+   // public Button exTo_interiorButton2;
     [Header("External Measure Text")]
     public TextMeshProUGUI externalMeasuretext;
     public int ex_measured;
@@ -52,6 +55,7 @@ public class TaskManager : MonoBehaviour
         ex_measured = 0;
         numMeasured = 0;
         int start = Random.Range(0, 2);
+        // external start
         if(start == 0)
         {
             finishedGrabTask = false;
@@ -61,6 +65,7 @@ public class TaskManager : MonoBehaviour
             ExternalView = true;
             InternalView = false;
         }
+        // internal start
         else
         {
             InternalView = true;
@@ -68,7 +73,6 @@ public class TaskManager : MonoBehaviour
            // grabTask = true;
            // measureTask = true;
             currentMeasureTaskIndex = 0;
-            //grabTask = false;
         }
     }
     void Start()
@@ -81,6 +85,7 @@ public class TaskManager : MonoBehaviour
         }
         else
         {
+            exteriorButtonStart.SetActive(true);
             playerRef.transform.position = internalLocations[0].position;
             taskText.text = "Current View: Internal";
         }
@@ -95,32 +100,37 @@ public class TaskManager : MonoBehaviour
         {
             print("finished grab");
             //enable measure task button for now ********
-            exTo_interiorButton.interactable = true;
+          //  exTo_interiorButton.interactable = true;
             finishedGrabTask = true;
             // either begin measuring or grabbing, player choice
             // start it once
         }
         // exterior measuring
         CheckExternalMeasure();
-        if(measureRef.measure1 >= 3 && finishedEXmeasure == false)
+        if(measure1ex && measure2ex && measure3ex && finishedEXmeasure == false)
         {
             print("finished measuring exterior, currently also finishes finishedExMeasure");
             finishedEXmeasure = true;
-            finishedEXmeasure = true;
         }
 
-        // done at exterior
-        if(finishedEXmeasure == true && finishedGrabTask && ExternalView == false)
+        // done at exterior and interior
+        if(finishedEXmeasure == true && finishedGrabTask == true && finishedINmeasure)
         {
-            // show interior button
-            exTo_interiorButton.interactable = true;
-            exTo_interiorButton2.interactable = true;
+         
             finishedExterior = true;
         }
         // check instruction text
         externalMeasuretext.text = "Measure Tasks Completed: " + ex_measured.ToString() + "/3";
-    }
 
+        // final checking
+        if(distanceCheckerRef.reachedEnd == true && finishedExterior == true && startedCoroutine == false)
+        {
+            StartCoroutine(CompletedTask());
+            print("done");
+        }
+
+    }
+    // also does internal, too lazy
     public void CheckExternalMeasure()
     {
         if(measureRef.measure1 >= 3 && measure1ex == false)
@@ -141,6 +151,12 @@ public class TaskManager : MonoBehaviour
             ex_measured++;
             measure3ex = true;
         }
+        if(measureRef.measureInt1 >= 3 && finishedINmeasure == false) 
+        {
+            finishedINmeasure = true;
+            print("done internal measure");
+
+        }
     }
 
     public void CheckInternalMeasureCenter()
@@ -148,26 +164,16 @@ public class TaskManager : MonoBehaviour
 
     }
 
-    //public IEnumerator CompletedTask(string task)
-    //{
-    //    startedCoroutine = true;
-    //    taskText.text = "You Completed";
-    //    yield return new WaitForSeconds(3f);
-    //    switch(task)
-    //    {
-    //        case "External":
-    //            measureTask = true;
-    //            grabTask = false;
-    //            taskText.text = "Current View: Internal";
-    //            break;
-    //        case "Internal":
-    //            taskText.text = "Current View: External";
-    //            break;
-    //    }
+    public IEnumerator CompletedTask()
+    {
+        startedCoroutine = true;
+        // play celebratory audio
+        sfxRef.PlayOneShot(completedSFX);
+        yield return new WaitForSeconds(1.5f);
 
-    //    print("finished announcement");
-    //    yield return null;
-    //    startedCoroutine = false;
-    //    yield return null;
-    //}
+        // enable congrats screen
+
+        print("congrats screen open");
+        yield return null;
+    }
 }

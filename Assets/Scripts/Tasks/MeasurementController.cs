@@ -27,6 +27,8 @@ public class MeasurementController : MonoBehaviour
     public int measure2;
     public int measure3;
     public GameObject[] exteriorParentMeasures;
+    public int measureInt1;
+    public GameObject[] interiorParentMeasures;
 
     [Header("SFX")]
     public AudioSource sfxPlayer;
@@ -111,16 +113,6 @@ public class MeasurementController : MonoBehaviour
 
     public void TestMeasurement()
     {
-        //RaycastHit raycastHit;
-        //if(rayInteractor_right.TryGetCurrent3DRaycastHit(out raycastHit))
-        //{
-        //    print(raycastHit.collider.gameObject.name);
-        //}
-        // put line renderer reference
-        // set the 2 transforms
-        // color the 2 selected spheres
-
-        // either do clear selected gameobject properties using button or just clicking on a different sphere
         
     }
 
@@ -145,11 +137,26 @@ public class MeasurementController : MonoBehaviour
                     measure1++;
                     if (measure1 > 3) { measure1 = 3; }
                     break;
+                case "structure_07 exterior measure 2":
+                    measure2++;
+                    if (measure2 > 3) { measure2 = 3; }
+                    break;
+                case "structure_05 exterior measure 1":
+                    measure3++;
+                    if (measure3 > 3) { measure3 = 3; }
+                    break;
             }
         }
         else if(taskManagerRef_.InternalView == true)
         {
-
+            switch (inputName)
+            {
+                case "structure_06 interior 1":
+                    measureInt1++;
+                    if (measureInt1 > 3) { measureInt1 = 3; }
+                    break;
+                
+            }
         }
         
     }
