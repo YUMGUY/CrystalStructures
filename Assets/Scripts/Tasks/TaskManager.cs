@@ -44,8 +44,11 @@ public class TaskManager : MonoBehaviour
 
     public bool startedCoroutine;
     public GameObject exteriorButtonStart;
-   // public Button exTo_interiorButton;
-   // public Button exTo_interiorButton2;
+    public GameObject rotateOnButton;
+    public GameObject rotateOFFButton;
+    public GameObject nextFloor;
+    // public Button exTo_interiorButton;
+    // public Button exTo_interiorButton2;
     [Header("External Measure Text")]
     public TextMeshProUGUI externalMeasuretext;
     public int ex_measured;
@@ -85,6 +88,9 @@ public class TaskManager : MonoBehaviour
         }
         else
         {
+            rotateOFFButton.SetActive(true);
+            rotateOnButton.SetActive(true);
+            nextFloor.SetActive(true);
             exteriorButtonStart.SetActive(true);
             playerRef.transform.position = internalLocations[0].position;
             taskText.text = "Current View: Internal";

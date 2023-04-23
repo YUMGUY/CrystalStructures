@@ -26,6 +26,10 @@ public class MeasurementController : MonoBehaviour
     public int measure1;
     public int measure2;
     public int measure3;
+    public int measure4;
+    public int measure5;
+    public int measure6;
+
     public GameObject[] exteriorParentMeasures;
     public int measureInt1;
     public GameObject[] interiorParentMeasures;
@@ -145,6 +149,18 @@ public class MeasurementController : MonoBehaviour
                     measure3++;
                     if (measure3 > 3) { measure3 = 3; }
                     break;
+                //case "structure_07 exterior measure 1":
+                //    measure4++;
+                //    if (measure4 > 3) { measure4 = 3; }
+                //    break;
+                //case "structure_08 exterior measure 2":
+                //    measure5++;
+                //    if (measure5 > 3) { measure5 = 3; }
+                //    break;
+                //case "structure_09 exterior measure 3":
+                //    measure6++;
+                //    if (measure6 > 3) { measure6 = 3; }
+                //    break;
             }
         }
         else if(taskManagerRef_.InternalView == true)
