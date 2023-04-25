@@ -19,14 +19,15 @@ public class DistanceChecker : MonoBehaviour
     void Start()
     {
         reachedEnd = false;
-        print(Vector3.Distance(pos1.transform.position, pos2.transform.position));
+       // print(Vector3.Distance(pos1.transform.position, pos2.transform.position));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(playerVr.transform.position, endPointpos.position) < 15 && reachedEnd == false)
+        if(Vector3.Distance(playerVr.transform.position, endPointpos.position) < 20 && reachedEnd == false)
         {
+
             sfxRef.PlayOneShot(notifEnd);
             reachedEnd = true;
         }
