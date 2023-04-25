@@ -18,12 +18,12 @@ public class RotateInterior : MonoBehaviour
         if (rotate)
         {
             transform.Rotate(new Vector3(0, 45, 0) * Time.deltaTime);
-            childText.text = "Rotate On";
+            //childText.text = "Rotate On";
         }
 
         else
         {
-            childText.text = "Rotate Off";
+            //childText.text = "Rotate Off";
         }
     }
 

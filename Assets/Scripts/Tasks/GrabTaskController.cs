@@ -59,12 +59,39 @@ public class GrabTaskController : MonoBehaviour
                // grabtrackerText.text = "Grab/Rotate Tasks Completed: 3/3";
 
             }
+            else if (rotateTracker >= 100.0f && currObj.name == grabTasks[3].name)
+            {
+                rotateTracker = 0;
+                taskManagerRef.grab4 = true;
+                sfxPlayerRef.PlayOneShot(completeRotate);
+                numTaskCompleted += 1;
+                //   grabtrackerText.text = "Grab/Rotate Tasks Completed: 2/3";
+            }
+            else if (rotateTracker >= 100.0f && currObj.name == grabTasks[4].name)
+            {
+                sfxPlayerRef.PlayOneShot(completeRotate);
+                rotateTracker = 0;
+                taskManagerRef.grab5 = true;
+                numTaskCompleted += 1;
+                // grabtrackerText.text = "Grab/Rotate Tasks Completed: 3/3";
+
+            }
+            else if (rotateTracker >= 100.0f && currObj.name == grabTasks[5].name)
+            {
+                sfxPlayerRef.PlayOneShot(completeRotate);
+                rotateTracker = 0;
+                taskManagerRef.grab6 = true;
+                numTaskCompleted += 1;
+                // grabtrackerText.text = "Grab/Rotate Tasks Completed: 3/3";
+
+            }
+
         }
-        if(numTaskCompleted > 3)
+        if(numTaskCompleted > 6)
         {
-            numTaskCompleted = 3;
+            numTaskCompleted = 6;
         }
-        grabtrackerText.text = "Grab/Rotate Tasks Completed: " + numTaskCompleted.ToString() + "/3";
+        grabtrackerText.text = "Grab/Rotate Tasks Completed: " + numTaskCompleted.ToString() + "/6";
 
         // add saftey to object position
 

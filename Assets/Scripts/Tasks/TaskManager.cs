@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class TaskManager : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -30,10 +31,16 @@ public class TaskManager : MonoBehaviour
     public bool grab1;
     public bool grab2;
     public bool grab3;
+    public bool grab4;
+    public bool grab5;
+    public bool grab6;
     public bool finishedGrabTask;
     public bool measure1ex;
     public bool measure2ex;
     public bool measure3ex;
+    public bool measure4ex;
+    public bool measure5ex;
+    public bool measure6ex;
     [Header("Final Flags")]
     public bool finishedEXmeasure;
     public bool finishedINmeasure;
@@ -43,6 +50,7 @@ public class TaskManager : MonoBehaviour
     public bool playFinishIn;
 
     public bool startedCoroutine;
+    public GameObject congratsScreen;
     public GameObject exteriorButtonStart;
     public GameObject rotateOnButton;
     public GameObject rotateOFFButton;
@@ -102,7 +110,7 @@ public class TaskManager : MonoBehaviour
     {
         //  *do it once for each random task, branch off *
         // grab/rotate exterior task
-        if(grab1 && grab2 && grab3 && finishedGrabTask == false)
+        if(grab1 && grab2 && grab3 && grab4 && grab5 && grab6 && finishedGrabTask == false)
         {
             print("finished grab");
             //enable measure task button for now ********
@@ -113,7 +121,7 @@ public class TaskManager : MonoBehaviour
         }
         // exterior measuring
         CheckExternalMeasure();
-        if(measure1ex && measure2ex && measure3ex && finishedEXmeasure == false)
+        if(measure1ex && measure2ex && measure3ex && measure4ex && measure5ex && measure6ex && finishedEXmeasure == false)
         {
             print("finished measuring exterior, currently also finishes finishedExMeasure");
             finishedEXmeasure = true;
@@ -126,7 +134,7 @@ public class TaskManager : MonoBehaviour
             finishedExterior = true;
         }
         // check instruction text
-        externalMeasuretext.text = "Measure Tasks Completed: " + ex_measured.ToString() + "/3";
+        externalMeasuretext.text = "Measure Tasks Completed: " + ex_measured.ToString() + "/7";
 
         // final checking
         if(distanceCheckerRef.reachedEnd == true && finishedExterior == true && startedCoroutine == false)
@@ -157,9 +165,28 @@ public class TaskManager : MonoBehaviour
             ex_measured++;
             measure3ex = true;
         }
-        if(measureRef.measureInt1 >= 3 && finishedINmeasure == false) 
+        if (measureRef.measure4 >= 3 && measure4ex == false)
+        {
+            print("done 4em");
+            ex_measured++;
+            measure4ex = true;
+        }
+        if (measureRef.measure5 >= 3 && measure5ex == false)
+        {
+            print("done 5em");
+            ex_measured++;
+            measure5ex = true;
+        }
+        if (measureRef.measure6 >= 3 && measure6ex == false)
+        {
+            print("done 6em");
+            ex_measured++;
+            measure6ex = true;
+        }
+        if (measureRef.measureInt1 >= 3 && finishedINmeasure == false) 
         {
             finishedINmeasure = true;
+            ex_measured++;
             print("done internal measure");
 
         }
@@ -178,8 +205,13 @@ public class TaskManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         // enable congrats screen
-
+        congratsScreen.SetActive(true);
         print("congrats screen open");
         yield return null;
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }
